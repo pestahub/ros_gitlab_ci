@@ -46,15 +46,21 @@ cmake --version
 
 # Prepare build
 #--------------
+set -x
 cd ..
 mkdir -p src
 # https://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables
 # Copy current directory into a src directory
 # Don't move the original clone or GitLab CI fails!
 cp -r $CI_PROJECT_DIR src/
+ls
+pwd
+ls src
+set +x
 
 # If self testing
 #----------------
+set -x
 if [ ! -z ${SELF_TEST+x} ]; then
   echo "SELF TESTING"
   cd src
@@ -65,3 +71,9 @@ else
   echo "not self testing... do nothing"
 fi
 
+cp -r $CI_PROJECT_DIR src/
+ls
+pwd
+ls src
+
+set +x
