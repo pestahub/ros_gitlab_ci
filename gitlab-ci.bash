@@ -55,15 +55,12 @@ cp -r $CI_PROJECT_DIR src/
 
 # If self testing
 #----------------
-echo "Self test ="
-echo $SELF_TEST
-
 if [ ! -z ${SELF_TEST+x} ]; then
   echo "SELF TESTING"
   cd src
   # We create a package beginner_tutorials so that the catkin workspace is not empty
   catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
-  cd $CI_PROJECT_DIR
+  cd $CI_PROJECT_DIR/..
 else 
   echo "not self testing... do nothing"
 fi
