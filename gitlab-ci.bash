@@ -47,7 +47,6 @@ cmake --version
 # Prepare build
 #--------------
 # https://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables
-set -x
 cd $CI_PROJECT_DIR/..
 mkdir -p src
 # Copy current directory into a src directory
@@ -55,14 +54,9 @@ mkdir -p src
 cp -r $CI_PROJECT_DIR src/
 mv src $CI_PROJECT_DIR
 cd $CI_PROJECT_DIR
-ls
-pwd
-ls src
-set +x
 
 # If self testing
 #----------------
-set -x
 if [ ! -z ${SELF_TEST+x} ]; then
   echo "SELF TESTING"
   cd $CI_PROJECT_DIR/src
@@ -70,5 +64,3 @@ if [ ! -z ${SELF_TEST+x} ]; then
   catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
   cd $CI_PROJECT_DIR
 fi
-
-set +x
