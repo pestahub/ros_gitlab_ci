@@ -8,7 +8,7 @@ variables:
   SELF_TEST: "true" # Do not set this variable in your packages!
 
 before_script:
- - git clone https://github.com/InstitutMaupertuis/ros_gitlab_ci.git
+ - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - ros_gitlab_ci/gitlab-ci.bash
 
 catkin_make:
