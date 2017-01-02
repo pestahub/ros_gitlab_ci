@@ -37,7 +37,7 @@ for package in "${PACKAGES[@]}"; do
 done
 
 # Install the packages
-apt-get install -qq $ROS_PACKAGES_TO_INSTALL
+apt-get install -qq $ROS_PACKAGES_TO_INSTALL >/dev/null
 
 # Display system information
 #---------------------------
