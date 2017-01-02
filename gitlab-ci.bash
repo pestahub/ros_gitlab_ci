@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Check variables
-#----------------
-if [ -z ${ROS_DISTRO+x} ]; then
-  echo "ROS_DISTRO variable has no been set! Aborting"
+# Determine ROS_DISTRO
+#---------------------
+ROS_DISTRO=$(ls /opt/ros/)
+
+if [ -z "$ROS_DISTRO" ]; then
+  echo "No ROS distribution was found in /opt/ros/. Aborting!"
   exit -1
 fi
 

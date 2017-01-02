@@ -9,7 +9,7 @@ Using Travis CI ? Take a look at [ros-industrial/industrial_ci](https://github.c
 
 Description
 ---
-This repository contains helper scripts and instructions on how to use Continuous Integration (CI) with ROS projects hosted on a GitLab instance.
+This repository contains helper scripts and instructions on how to use Continuous Integration (CI) for ROS projects hosted on a GitLab instance.
 
 Supported ROS releases:
 - Indigo
@@ -28,7 +28,6 @@ Create a `.gitlab-ci.yml` that looks like [this](/.gitlab-ci.yml):
 image: ros:kinetic-ros-core
 
 variables:
-  ROS_DISTRO: "kinetic"
   ROS_PACKAGES_TO_INSTALL: ""
 
 before_script:
