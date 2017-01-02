@@ -46,13 +46,15 @@ cmake --version
 
 # Prepare build
 #--------------
-set -x
-cd ..
-mkdir -p src
 # https://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables
+set -x
+cd $CI_PROJECT_DIR/..
+mkdir -p src
 # Copy current directory into a src directory
 # Don't move the original clone or GitLab CI fails!
 cp -r $CI_PROJECT_DIR src/
+mv src $CI_PROJECT_DIR
+cd $CI_PROJECT_DIR
 ls
 pwd
 ls src
@@ -63,17 +65,10 @@ set +x
 set -x
 if [ ! -z ${SELF_TEST+x} ]; then
   echo "SELF TESTING"
-  cd src
+  cd $CI_PROJECT_DIR/src
   # We create a package beginner_tutorials so that the catkin workspace is not empty
   catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
-  cd $CI_PROJECT_DIR/..
-else 
-  echo "not self testing... do nothing"
+  cd $CI_PROJECT_DIR
 fi
-
-cp -r $CI_PROJECT_DIR src/
-ls
-pwd
-ls src
 
 set +x
