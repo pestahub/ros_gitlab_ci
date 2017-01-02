@@ -11,16 +11,16 @@ fi
 
 # Source ROS
 #-----------
-source /opt/ros/$ROS_DISTRO/setup.bash &>/dev/null
+source /opt/ros/$ROS_DISTRO/setup.bash >/dev/null
 
 # Install catkin tools # https://catkin-tools.readthedocs.io/en/latest/installing.html
 #---------------------
-apt-get update &>/dev/null
-apt-get install -qq wget &>/dev/null
-sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list' &>/dev/null
-wget http://packages.ros.org/ros.key -O - | apt-key add - &>/dev/null
-apt-get update &>/dev/null
-apt-get install -qq python-catkin-tools &>/dev/null
+apt-get update >/dev/null
+apt-get install -qq wget >/dev/null
+sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list' >/dev/null
+wget http://packages.ros.org/ros.key -O - | apt-key add - >/dev/null
+apt-get update >/dev/null
+apt-get install -qq python-catkin-tools >/dev/null
 export TERM=xterm # Makes catkin build output less ugly
 
 # Install ROS packages required by the user
