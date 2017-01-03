@@ -60,7 +60,7 @@ echo "##############################################"
 #-------------
 if [ "$SELF_TESTING" == "true" ]; then
  # We are done, no need to prepare the build
- exit 0
+ return
 fi
 
 # Prepare build
