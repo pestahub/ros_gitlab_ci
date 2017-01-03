@@ -9,8 +9,6 @@ if [ ${CI_PROJECT_URL} == "https://gitlab.com/VictorLamoine/$CI_PROJECT_NAME" ];
   # Go into the sub ROS GitLab CI repository
   cd $CI_PROJECT_DIR/$CI_PROJECT_NAME
 
-if [ ${CI_PROJECT_URL} == "https://gitlab.com/VictorLamoine/ros_gitlab_ci" ]; then
-  echo "##############################################"
   # Switch to the branch we want to test
   git checkout ${CI_BUILD_REF_NAME} &>/dev/null
   echo "Self testing, ${CI_PROJECT_URL}"
