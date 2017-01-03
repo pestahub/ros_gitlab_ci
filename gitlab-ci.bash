@@ -2,10 +2,12 @@
 
 # https://docs.gitlab.com/ce/ci/variables/README.html
 
-# If self testing
-#----------------
+# Manage self testing
+#--------------------
 if [ ${CI_PROJECT_URL} == "https://gitlab.com/VictorLamoine/$CI_PROJECT_NAME" ]; then
   echo "##############################################"
+  SELF_TESTING="true"
+
   # Go into the sub ROS GitLab CI repository
   cd $CI_PROJECT_DIR/$CI_PROJECT_NAME
 

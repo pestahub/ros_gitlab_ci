@@ -56,6 +56,13 @@ echo "CXXFLAGS = $CXXFLAGS"
 cmake --version
 echo "##############################################"
 
+# Self testing
+#-------------
+if [ "$SELF_TESTING" == "true" ]; then
+ # We are done, no need to prepare the build
+ exit 0
+fi
+
 # Prepare build
 #--------------
 # https://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables
@@ -64,6 +71,7 @@ echo "##############################################"
 rosinstall_file=$(find $CI_PROJECT_DIR -maxdepth 2 -type f -name "*.rosinstall")
 
 if [ -z "$rosinstall_file" ]; then
+  # No rosinstall file
   cd $CI_PROJECT_DIR/..
   mkdir -p src
   # Copy current directory into a src directory
