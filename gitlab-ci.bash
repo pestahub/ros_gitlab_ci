@@ -4,7 +4,7 @@
 
 # Manage self testing
 #--------------------
-if [ ${CI_PROJECT_URL} == "https://gitlab.com/VictorLamoine/$CI_PROJECT_NAME" ]; then
+if [ ${$CI_PROJECT_NAME} == "ros_gitlab_ci" ]; then
   echo "##############################################"
   SELF_TESTING="true"
 
