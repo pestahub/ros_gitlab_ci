@@ -24,7 +24,7 @@ Your repository must be hosted on a GitLab instance with CI working and Docker s
 
 Create a `.gitlab-ci.yml` that looks like [this](/.gitlab-ci.yml):
 
-```xml
+```yml
 image: ros:kinetic-ros-core
 
 variables:
@@ -32,7 +32,7 @@ variables:
 
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - ros_gitlab_ci/gitlab-ci.bash
+ - source ros_gitlab_ci/gitlab-ci.bash
 
 catkin_make:
   stage: build
@@ -42,9 +42,23 @@ catkin_make:
 catkin_build:
   stage: build
   script:
-    - catkin build
+    - catkin build --status-rate 0.2
 
 ```
-
 Commit, push to your repository and watch the pipeline!
 
+Useful variables
+---
+- `ROS_PACKAGES_TO_INSTALL` (empty by default) allows to install extra ROS packages, to install `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
+- `GLOBAL_C11` (not defined by default) allows to force C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
+
+Installing extra APT packages
+---
+Just add them after launching `gitlab-ci.bash` in the `before_script` section, for example:
+
+```yml
+before_script:
+ - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+ - source ros_gitlab_ci/gitlab-ci.bash
+ - apt-get install -qq liblapack-dev </dev/null
+```

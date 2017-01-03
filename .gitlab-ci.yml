@@ -2,13 +2,13 @@
 image: ros:kinetic-ros-core
 
 variables:
+  GLOBAL_C11: "true" # Enable C++11 everywhere by default
   # If package name is "ros-kinetic-actionlib" it becomes "actionlib" (remove the prefix)
   ROS_PACKAGES_TO_INSTALL: "actionlib" # Here the package is useless, it is just for demonstration
-  SELF_TEST: "true" # Do not set this variable in your packages!
 
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - ros_gitlab_ci/gitlab-ci.bash
+ - source ros_gitlab_ci/gitlab-ci.bash
 
 catkin_make:
   stage: build
@@ -18,5 +18,5 @@ catkin_make:
 catkin_build:
   stage: build
   script:
-    - catkin build
+    - catkin build --status-rate 0.2
 
