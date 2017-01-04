@@ -42,8 +42,17 @@ apt-get install -qq $ROS_PACKAGES_TO_INSTALL >/dev/null
 # Add color diagnostics
 #----------------------
 # Don't add if user defined the variable
-if [ -e ${DISABLE_GCC_COLORS} ]; then
-  export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
+# Don't add if gcc is too old to support the option
+
+# http://unix.stackexchange.com/questions/285924/how-to-compare-a-programs-version-in-a-shell-script/285928#285928
+gcc_version="$(gcc -dumpversion)"
+required_ver="4.9.0"
+if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then 
+  echo "Can't use -fdiagnostics-color, gcc is too old!"
+else
+  if [ -e ${DISABLE_GCC_COLORS} ]; then
+    export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
+  fi
 fi
 
 # Enable global C++11 if required by the user
