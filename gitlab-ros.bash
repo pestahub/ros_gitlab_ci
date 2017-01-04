@@ -39,6 +39,13 @@ done
 # Install the packages
 apt-get install -qq $ROS_PACKAGES_TO_INSTALL >/dev/null
 
+# Add color diagnostics
+#----------------------
+# Don't add if user defined the variable
+if [ -e ${DISABLE_GCC_COLORS} ]; then
+  export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
+fi
+
 # Enable global C++11 if required by the user
 #--------------------------------------------
 if [ ! -z ${GLOBAL_C11+x} ]; then
