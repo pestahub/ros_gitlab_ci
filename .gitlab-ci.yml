@@ -1,6 +1,3 @@
-# https://hub.docker.com/_/ros/
-image: ros:kinetic-ros-core
-
 variables:
   GLOBAL_C11: "true" # Enable C++11 everywhere by default
   # If package name is "ros-kinetic-actionlib" it becomes "actionlib" (remove the prefix)
@@ -10,12 +7,28 @@ before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - source ros_gitlab_ci/gitlab-ci.bash
 
-catkin_make:
+# Tests for Kinetic
+kinetic-catkin_make:
+  image: ros:kinetic-ros-core
   stage: build
   script:
     - catkin_make
 
-catkin_build:
+kinetic-catkin_build:
+  image: ros:kinetic-ros-core
+  stage: build
+  script:
+    - catkin build --status-rate 0.2
+
+# Tests for Indigo
+indigo-catkin_make:
+  image: ros:indigo-ros-core
+  stage: build
+  script:
+    - catkin_make
+
+indigo-catkin_build:
+  image: ros:indigo-ros-core
   stage: build
   script:
     - catkin build --status-rate 0.2

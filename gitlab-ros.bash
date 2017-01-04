@@ -9,13 +9,17 @@ if [ -z "$ROS_DISTRO" ]; then
   exit -1
 fi
 
+# Install gcc g++
+#----------------
+apt-get update >/dev/null
+apt-get install gcc g++
+
 # Source ROS
 #-----------
 source /opt/ros/$ROS_DISTRO/setup.bash >/dev/null
 
 # Install catkin tools # https://catkin-tools.readthedocs.io/en/latest/installing.html
 #---------------------
-apt-get update >/dev/null
 apt-get install -qq wget >/dev/null
 sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list' >/dev/null
 wget http://packages.ros.org/ros.key -O - | apt-key add - >/dev/null
