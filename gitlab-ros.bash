@@ -25,7 +25,7 @@ sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /e
 wget http://packages.ros.org/ros.key -O - | apt-key add - >/dev/null
 apt-get update >/dev/null
 apt-get install -qq python-catkin-tools xterm >/dev/null
-export TERM=xterm # Makes catkin build output less ugly
+export TERM="xterm"
 
 # Install ROS packages required by the user
 #------------------------------------------

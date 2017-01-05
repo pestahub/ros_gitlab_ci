@@ -41,7 +41,7 @@ catkin_make:
 catkin_build:
   stage: build
   script:
-    - catkin build --status-rate 0.2
+    - catkin build --summarize --no-status
 
 ```
 Commit, push to your repository and watch the pipeline!

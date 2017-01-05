@@ -18,7 +18,7 @@ kinetic-catkin_build:
   image: ros:kinetic-ros-core
   stage: build
   script:
-    - catkin build --status-rate 0.2
+    - catkin build --summarize --no-status
 
 # Tests for Indigo
 indigo-catkin_make:
@@ -31,5 +31,5 @@ indigo-catkin_build:
   image: ros:indigo-ros-core
   stage: build
   script:
-    - catkin build --status-rate 0.2
+    - catkin build --summarize --no-status
 
