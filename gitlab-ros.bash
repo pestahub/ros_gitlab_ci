@@ -90,25 +90,28 @@ fi
 # Does this project have a wstool install file?
 rosinstall_file=$(find $CI_PROJECT_DIR -maxdepth 2 -type f -name "*.rosinstall")
 
+cd $CI_PROJECT_DIR/..
+mkdir -p catkin_workspace/src
+
 if [ -z "$rosinstall_file" ]; then
   # No rosinstall file
-  cd $CI_PROJECT_DIR/..
-  mkdir -p catkin_workspace/src
   # Copy current directory into a src directory
   # Don't move the original clone or GitLab CI fails!
   cp -r $CI_PROJECT_DIR catkin_workspace/src/
-  mv catkin_workspace $CI_PROJECT_DIR
-  cd $CI_PROJECT_DIR/catkin_workspace
 else
   echo "Using wstool file $rosinstall_file"
   # Install wstool
   apt-get install -qq python-wstool >/dev/null
   # Create workspace
-  mkdir $CI_PROJECT_DIR/catkin_workspace
-  cd $CI_PROJECT_DIR/catkin_workspace
+  cd catkin_workspace
   wstool init src $rosinstall_file
   wstool update -t src
+  
+  # If the project itself is not included in rosinstall file, copy it manually
+  if [ ! -d "src/$CI_PROJECT_NAME" ]; then
+    cp -r $CI_PROJECT_DIR src
+  fi
 fi
 
-# At the end of this script we are in $CI_PROJECT_DIR/catkin_workspace
-
+mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
+cd $CI_PROJECT_DIR/catkin_workspace
