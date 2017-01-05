@@ -37,7 +37,7 @@ ROS_PACKAGES_TO_INSTALL=""
 # Append "ros-kinetic-" (eg for Kinetic) before the package name
 # and append in the packages list
 for package in "${PACKAGES[@]}"; do
-    ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-$ROS_DISTRO-$package"
+  ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-$ROS_DISTRO-$package"
 done
 
 # Install the packages
@@ -79,8 +79,8 @@ echo "##############################################"
 # Self testing
 #-------------
 if [ "$SELF_TESTING" == "true" ]; then
- # We are done, no need to prepare the build
- return
+  # We are done, no need to prepare the build
+  return
 fi
 
 # Prepare build
@@ -93,18 +93,22 @@ rosinstall_file=$(find $CI_PROJECT_DIR -maxdepth 2 -type f -name "*.rosinstall")
 if [ -z "$rosinstall_file" ]; then
   # No rosinstall file
   cd $CI_PROJECT_DIR/..
-  mkdir -p src
+  mkdir -p catkin_workspace/src
   # Copy current directory into a src directory
   # Don't move the original clone or GitLab CI fails!
-  cp -r $CI_PROJECT_DIR src/
-  mv src $CI_PROJECT_DIR
-  cd $CI_PROJECT_DIR
+  cp -r $CI_PROJECT_DIR catkin_workspace/src/
+  mv catkin_workspace $CI_PROJECT_DIR
+  cd $CI_PROJECT_DIR/catkin_workspace
 else
   echo "Using wstool file $rosinstall_file"
   # Install wstool
   apt-get install -qq python-wstool >/dev/null
   # Create workspace
+  mkdir $CI_PROJECT_DIR/catkin_workspace
+  cd $CI_PROJECT_DIR/catkin_workspace
   wstool init src $rosinstall_file
   wstool update -t src
 fi
+
+# At the end of this script we are in $CI_PROJECT_DIR/catkin_workspace
 
