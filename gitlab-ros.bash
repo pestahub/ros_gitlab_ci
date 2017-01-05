@@ -103,7 +103,7 @@ else
   # Install wstool
   apt-get install -qq python-wstool >/dev/null
   # Create workspace
-  cd $CI_PROJECT_DIR/catkin_workspace
+  cd catkin_workspace
   wstool init src $rosinstall_file
   wstool update -t src
   
@@ -113,7 +113,5 @@ else
   fi
 fi
 
-  mv catkin_workspace $CI_PROJECT_DIR
-  cd $CI_PROJECT_DIR/catkin_workspace
-
-# At the end of this script we are in $CI_PROJECT_DIR/catkin_workspace
+mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
+cd $CI_PROJECT_DIR/catkin_workspace
