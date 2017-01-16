@@ -98,6 +98,10 @@ if [ -z "$rosinstall_file" ]; then
   # Copy current directory into a src directory
   # Don't move the original clone or GitLab CI fails!
   cp -r $CI_PROJECT_DIR catkin_workspace/src/
+  cd catkin_workspace/src/$CI_PROJECT_NAME/
+  git submodule init
+  git submodule update
+  cd $CI_PROJECT_DIR
 else
   echo "Using wstool file $rosinstall_file"
   # Install wstool
