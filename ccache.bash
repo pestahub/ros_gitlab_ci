@@ -1,5 +1,6 @@
 #!/bin/bash
-apt-get install -y -qq ccache
+apt-get update >/dev/null
+apt-get install -qq ccache >/dev/null
 export PATH="/usr/lib/ccache:$PATH"
 
 # Setup path for ccache
