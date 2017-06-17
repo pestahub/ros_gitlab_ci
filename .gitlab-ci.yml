@@ -7,6 +7,10 @@ before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - source ros_gitlab_ci/gitlab-ci.bash
 
+cache:
+  paths:
+    - ccache/
+
 # Tests for Kinetic
 kinetic-catkin_make:
   image: ros:kinetic-ros-core
@@ -32,4 +36,3 @@ indigo-catkin_build:
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
-
