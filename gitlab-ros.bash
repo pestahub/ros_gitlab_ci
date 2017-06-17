@@ -12,13 +12,7 @@ fi
 # Install gcc g++
 #----------------
 apt-get update >/dev/null
-apt-get install gcc g++
-
-# ccache
-#-------
-if [ -e ${DISABLE_CCACHE} ]; then
-  source $CI_PROJECT_DIR/ccache.bash
-fi
+apt-get install -qq gcc g++ >/dev/null
 
 # Source ROS
 #-----------

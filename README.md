@@ -6,19 +6,18 @@
 
 Using Travis CI ? Take a look at [ros-industrial/industrial_ci](https://github.com/ros-industrial/industrial_ci).
 
-Description
----
+## Description
 This repository contains helper scripts and instructions on how to use Continuous Integration (CI) for ROS projects hosted on a GitLab instance.
 
 Supported ROS releases:
 - Indigo
 - Jade
 - Kinetic
+- Lunar
 
 This repository uses the [ROS Docker](https://hub.docker.com/_/ros/) images to compile your packages, it does not run tests by default.
 
-How to use
----
+## How to use
 Your repository must be hosted on a GitLab instance with CI working and Docker support.
 
 Create a `.gitlab-ci.yml` that looks like [this](/.gitlab-ci.yml):
@@ -28,6 +27,10 @@ image: ros:kinetic-ros-core
 
 variables:
   ROS_PACKAGES_TO_INSTALL: ""
+
+cache:
+  paths:
+    - ccache/
 
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
@@ -48,15 +51,13 @@ Commit, push to your repository and watch the pipeline!
 
 If you want to test your packages after building them, read the [example package](#example-package-with-testing) section.
 
-Useful variables
----
+## Useful variables
 - `ROS_PACKAGES_TO_INSTALL` (empty by default) allows to install extra ROS packages, to install `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
 - `GLOBAL_C11` (not defined by default) allows to force C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
 - `DISABLE_GCC_COLORS` (false by default) allows to disable gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html))
 - `DISABLE_CCACHE` (false by default) allows to disable [ccache](https://ccache.samba.org/) gcc output caching
 
-Installing extra APT packages
----
+## Installing extra APT packages
 Just add them after launching `gitlab-ci.bash` in the `before_script` section, for example:
 
 ```yml
@@ -66,8 +67,7 @@ before_script:
  - apt-get install -qq liblapack-dev </dev/null
 ```
 
-Example package with testing
----
+## Example package with testing
 You can also test you packages using the ROS testing tools and GitLab CI pipelines, here is an example package:
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/kinetic/.gitlab-ci.yml
