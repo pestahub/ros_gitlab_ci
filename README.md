@@ -27,6 +27,7 @@ image: ros:kinetic-ros-core
 
 variables:
   ROS_PACKAGES_TO_INSTALL: ""
+  USE_ROSDEP: "true"
 
 cache:
   paths:
@@ -54,8 +55,9 @@ If you want to test your packages after building them, read the [example package
 ## Useful variables
 - `ROS_PACKAGES_TO_INSTALL` (empty by default) allows to install extra ROS packages, to install `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
 - `GLOBAL_C11` (not defined by default) allows to force C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
-- `DISABLE_GCC_COLORS` (false by default) allows to disable gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html))
-- `DISABLE_CCACHE` (false by default) allows to disable [ccache](https://ccache.samba.org/) gcc output caching
+- `DISABLE_GCC_COLORS` (false by default) allows to disable gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html)).
+- `DISABLE_CCACHE` (false by default) allows to disable [ccache](https://ccache.samba.org/) gcc output caching.
+- `USE_ROSDEP` (false by default) allows to use [rosdep](wiki.ros.org/rosdep/) to install dependencies.
 
 ## Installing extra APT packages
 Just add them after launching `gitlab-ci.bash` in the `before_script` section, for example:
