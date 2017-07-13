@@ -110,7 +110,7 @@ else
   cd catkin_workspace
   wstool init src $rosinstall_file
   wstool update -t src
-  
+
   # If the project itself is not included in rosinstall file, copy it manually
   if [ ! -d "src/$CI_PROJECT_NAME" ]; then
     cp -r $CI_PROJECT_DIR src
@@ -119,3 +119,14 @@ fi
 
 mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
 cd $CI_PROJECT_DIR/catkin_workspace
+
+if [ ${USE_ROSDEP} == "true" ]; then
+  # Install rosdep and initialize
+  apt-get install -qq python-rosdep >/dev/null
+  rosdep init >/dev/null || true
+  rosdep update >/dev/null
+
+  # Use rosdep to install dependencies
+  rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y >/dev/null
+fi
+
