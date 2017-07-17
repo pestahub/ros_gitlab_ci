@@ -127,6 +127,6 @@ if [ ${USE_ROSDEP} == "true" ]; then
   rosdep update >/dev/null
 
   # Use rosdep to install dependencies
-  rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y >/dev/null
+  rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y --as-root apt:false >/dev/null
 fi
 
