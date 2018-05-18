@@ -51,7 +51,7 @@ apt-get install -qq $ROS_PACKAGES_TO_INSTALL >/dev/null
 # http://unix.stackexchange.com/questions/285924/how-to-compare-a-programs-version-in-a-shell-script/285928#285928
 gcc_version="$(gcc -dumpversion)"
 required_ver="4.9.0"
-if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then 
+if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" = "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then 
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
   if [ -e ${DISABLE_GCC_COLORS} ]; then
@@ -78,7 +78,7 @@ echo "##############################################"
 
 # Self testing
 #-------------
-if [ "$SELF_TESTING" == "true" ]; then
+if [ "$SELF_TESTING" = "true" ]; then
   # We are done, no need to prepare the build
   return
 fi
@@ -120,7 +120,7 @@ fi
 mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
 cd $CI_PROJECT_DIR/catkin_workspace
 
-if [ ${USE_ROSDEP} == "true" ]; then
+if [ "$USE_ROSDEP" = "true" ]; then
   # Install rosdep and initialize
   apt-get install -qq python-rosdep >/dev/null
   rosdep init >/dev/null || true
