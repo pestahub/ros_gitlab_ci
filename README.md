@@ -3,7 +3,6 @@
 
 [![build status](https://gitlab.com/VictorLamoine/ros_gitlab_ci/badges/master/build.svg)](https://gitlab.com/VictorLamoine/ros_gitlab_ci/commits/master)
 
-
 Using Travis CI ? Take a look at [ros-industrial/industrial_ci](https://github.com/ros-industrial/industrial_ci).
 
 ## Description
@@ -14,6 +13,7 @@ Supported ROS releases:
 - Jade
 - Kinetic
 - Lunar
+- Melodic
 
 This repository uses the [ROS Docker](https://hub.docker.com/_/ros/) images to compile your packages, it does not run tests by default.
 
@@ -24,10 +24,6 @@ Create a `.gitlab-ci.yml` that looks like [this](/.gitlab-ci.yml):
 
 ```yml
 image: ros:kinetic-ros-core
-
-variables:
-  ROS_PACKAGES_TO_INSTALL: ""
-  USE_ROSDEP: "true"
 
 cache:
   paths:
@@ -53,11 +49,29 @@ Commit, push to your repository and watch the pipeline!
 If you want to test your packages after building them, read the [example package](#example-package-with-testing) section.
 
 ## Useful variables
-- `ROS_PACKAGES_TO_INSTALL` (empty by default) allows to install extra ROS packages, to install `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
-- `GLOBAL_C11` (not defined by default) allows to force C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
-- `DISABLE_GCC_COLORS` (false by default) allows to disable gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html)).
-- `DISABLE_CCACHE` (false by default) allows to disable [ccache](https://ccache.samba.org/) gcc output caching.
-- `USE_ROSDEP` (false by default) allows to use [rosdep](http://wiki.ros.org/rosdep/) to install dependencies.
+- `ROS_PACKAGES_TO_INSTALL` (empty by default) specify extra ROS packages to install, for `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
+- `GLOBAL_C11` (not defined by default) forces C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
+- `DISABLE_GCC_COLORS` (false by default) disables gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html)).
+- `DISABLE_CCACHE` (false by default) disables [ccache](https://ccache.samba.org/) gcc output caching.
+- `USE_ROSDEP` (true by default) use [rosdep](http://wiki.ros.org/rosdep/) to install dependencies.
+
+Example of using one of the available variables:
+```yml
+image: ros:kinetic-ros-core
+
+variables:
+  ROS_PACKAGES_TO_INSTALL: "uuid-msgs"
+
+before_script:
+ - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+ - source ros_gitlab_ci/gitlab-ci.bash
+
+catkin_make:
+  stage: build
+  script:
+    - catkin_make
+
+```
 
 ## Installing extra APT packages
 Just add them after launching `gitlab-ci.bash` in the `before_script` section, for example:
