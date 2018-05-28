@@ -31,7 +31,7 @@ cache:
 
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash
+ - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
 catkin_make:
   stage: build
@@ -64,7 +64,7 @@ variables:
 
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash
+ - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
 catkin_make:
   stage: build
@@ -79,8 +79,8 @@ Just add them after launching `gitlab-ci.bash` in the `before_script` section, f
 ```yml
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash
- - apt-get install -qq liblapack-dev </dev/null
+ - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
+ - apt-get install -qq liblapack-dev >/dev/null
 ```
 
 ## Example package with testing
