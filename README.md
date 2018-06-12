@@ -30,8 +30,8 @@ cache:
     - ccache/
 
 before_script:
- - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
+  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+  - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
 catkin_make:
   stage: build
@@ -42,7 +42,6 @@ catkin_build:
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
-
 ```
 Commit, push to your repository and watch the pipeline!
 
@@ -63,14 +62,13 @@ variables:
   ROS_PACKAGES_TO_INSTALL: "uuid-msgs"
 
 before_script:
- - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
- - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
+  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+  - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
 catkin_make:
   stage: build
   script:
     - catkin_make
-
 ```
 
 ## Installing extra APT packages
@@ -87,4 +85,3 @@ before_script:
 You can also test you packages using the ROS testing tools and GitLab CI pipelines, here is an example package:
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/kinetic/.gitlab-ci.yml
-
