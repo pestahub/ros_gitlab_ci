@@ -1,9 +1,8 @@
- [![ROS](http://www.ros.org/wp-content/uploads/2013/10/rosorg-logo1.png)](http://www.ros.org/) GitLab CI
-===
+[![ROS](http://www.ros.org/wp-content/uploads/2013/10/rosorg-logo1.png)](http://www.ros.org/)
 
 [![build status](https://gitlab.com/VictorLamoine/ros_gitlab_ci/badges/master/build.svg)](https://gitlab.com/VictorLamoine/ros_gitlab_ci/commits/master)
 
-Using Travis CI ? Take a look at [ros-industrial/industrial_ci](https://github.com/ros-industrial/industrial_ci).
+Using Travis CI? Take a look at [ros-industrial/industrial_ci](https://github.com/ros-industrial/industrial_ci).
 
 ## Description
 This repository contains helper scripts and instructions on how to use Continuous Integration (CI) for ROS projects hosted on a GitLab instance.
@@ -15,15 +14,15 @@ Supported ROS releases:
 - Lunar
 - Melodic
 
-This repository uses the [ROS Docker](https://hub.docker.com/_/ros/) images to compile your packages, it does not run tests by default.
+This repository uses the [ROS Docker](https://store.docker.com/images/ros) images to compile your packages, it does not run tests by default.
 
 ## How to use
 Your repository must be hosted on a GitLab instance with CI working and Docker support.
 
-Create a `.gitlab-ci.yml` that looks like [this](/.gitlab-ci.yml):
+Create a `.gitlab-ci.yml` that looks like this:
 
 ```yml
-image: ros:kinetic-ros-core
+image: ros:melodic-ros-core
 
 cache:
   paths:
@@ -38,12 +37,12 @@ catkin_make:
   script:
     - catkin_make
 
-catkin_build:
+catkin tools:
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
 ```
-Commit, push to your repository and watch the pipeline!
+Commit, push to your repository and watch the pipeline! (make sure pipelines are enabled in your project settings).
 
 If you want to test your packages after building them, read the [example package](#example-package-with-testing) section.
 
@@ -56,7 +55,7 @@ If you want to test your packages after building them, read the [example package
 
 Example of using one of the available variables:
 ```yml
-image: ros:kinetic-ros-core
+image: ros:melodic-ros-core
 
 variables:
   ROS_PACKAGES_TO_INSTALL: "uuid-msgs"
@@ -72,13 +71,13 @@ catkin_make:
 ```
 
 ## Installing extra APT packages
-Just add them after launching `gitlab-ci.bash` in the `before_script` section, for example:
+Just add them after sourcing `gitlab-ci.bash` in the `before_script` section, for example:
 
 ```yml
 before_script:
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
- - apt-get install -qq liblapack-dev >/dev/null
+ - apt install -y liblapack-dev >/dev/null
 ```
 
 ## Example package with testing
