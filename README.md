@@ -84,4 +84,4 @@ before_script:
 ## Example package with testing
 You can also test you packages using the ROS testing tools and GitLab CI pipelines, here is an example package:
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test
-- https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/kinetic/.gitlab-ci.yml
+- https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/melodic/.gitlab-ci.yml
