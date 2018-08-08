@@ -51,7 +51,7 @@ apt-get install -qq $ROS_PACKAGES_TO_INSTALL
 # http://unix.stackexchange.com/questions/285924/how-to-compare-a-programs-version-in-a-shell-script/285928#285928
 gcc_version="$(gcc -dumpversion)"
 required_ver="4.9.0"
-if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" = "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then 
+if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" = "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
   if [ -e $DISABLE_GCC_COLORS ]; then
@@ -99,8 +99,6 @@ if [ -z "$rosinstall_file" ]; then
   # Don't move the original clone or GitLab CI fails!
   cp -r $CI_PROJECT_DIR catkin_workspace/src/
   cd catkin_workspace/src/$CI_PROJECT_NAME/
-  git submodule init
-  git submodule update
   cd $CI_PROJECT_DIR
 else
   echo "Using wstool file $rosinstall_file"
@@ -119,6 +117,14 @@ fi
 
 mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
 cd $CI_PROJECT_DIR/catkin_workspace
+
+# Initialize git submodules
+for i in */.git; do
+  cd "$i/..";
+  git submodule init
+  git submodule update
+  cd -
+done
 
 if [ "$USE_ROSDEP" != "false" ]; then
   echo "Using rosdep to install dependencies"
