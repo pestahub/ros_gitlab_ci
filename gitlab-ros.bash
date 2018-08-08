@@ -116,15 +116,16 @@ else
 fi
 
 mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
-cd $CI_PROJECT_DIR/catkin_workspace
 
 # Initialize git submodules
+cd $CI_PROJECT_DIR/catkin_workspace/src
 for i in */.git; do
   cd "$i/..";
   git submodule init
   git submodule update
   cd -
 done
+cd $CI_PROJECT_DIR/catkin_workspace/
 
 if [ "$USE_ROSDEP" != "false" ]; then
   echo "Using rosdep to install dependencies"
@@ -136,4 +137,3 @@ if [ "$USE_ROSDEP" != "false" ]; then
   # Use rosdep to install dependencies
   rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y --as-root apt:false
 fi
-
