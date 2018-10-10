@@ -80,6 +80,22 @@ before_script:
  - apt install -y liblapack-dev >/dev/null
 ```
 
+## Using with [`catkin_lint`](http://wiki.ros.org/catkin_lint)
+Example usage:
+```yml
+# catkin_lint
+catkin lint:
+  stage: build
+  image: ros:melodic-ros-core
+  before_script:
+    - apt update >/dev/null 2>&1
+    - apt install -y python-catkin-lint >/dev/null 2>&1
+  allow_failure: true
+  script:
+    - catkin_lint -W3 .
+```
+
+
 ## Example package with testing
 You can also test you packages using the ROS testing tools and GitLab CI pipelines, here is an example package:
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test
