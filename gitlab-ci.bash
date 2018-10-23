@@ -2,6 +2,13 @@
 
 # https://docs.gitlab.com/ce/ci/variables/README.html
 
+# Check CI project directory
+#---------------------------
+if [ -z "$CI_PROJECT_DIR" ]; then
+  echo "CI_PROJECT_DIR variable is empty"
+  exit 1
+fi
+
 # Manage self testing
 #--------------------
 if [ "$CI_PROJECT_NAME" == "ros_gitlab_ci" ]; then

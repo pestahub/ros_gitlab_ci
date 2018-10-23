@@ -6,7 +6,7 @@ ROS_DISTRO=$(ls /opt/ros/)
 
 if [ -z "$ROS_DISTRO" ]; then
   echo "No ROS distribution was found in /opt/ros/. Aborting!"
-  exit -1
+  exit 1
 fi
 
 # Install gcc g++
@@ -137,3 +137,4 @@ if [ "$USE_ROSDEP" != "false" ]; then
   # Use rosdep to install dependencies
   rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y --as-root apt:false
 fi
+
