@@ -4,14 +4,14 @@
 
 # Check CI project directory
 #---------------------------
-if [ -z "$CI_PROJECT_DIR" ]; then
+if [[ -z "$CI_PROJECT_DIR" ]]; then
   echo "CI_PROJECT_DIR variable is empty"
   exit 1
 fi
 
 # Manage self testing
 #--------------------
-if [ "$CI_PROJECT_NAME" == "ros_gitlab_ci" ]; then
+if [[ "$CI_PROJECT_NAME" == "ros_gitlab_ci" ]]; then
   echo "##############################################"
   SELF_TESTING="true"
 
@@ -27,7 +27,7 @@ if [ "$CI_PROJECT_NAME" == "ros_gitlab_ci" ]; then
 
   # ccache
   #-------
-  if [ -e $DISABLE_CCACHE ]; then
+  if [[ -e $DISABLE_CCACHE ]]; then
     source $CI_PROJECT_DIR/ccache.bash
   fi
 
@@ -37,10 +37,9 @@ if [ "$CI_PROJECT_NAME" == "ros_gitlab_ci" ]; then
 else
   # ccache
   #-------
-  if [ -e $DISABLE_CCACHE ]; then
+  if [[ -e $DISABLE_CCACHE ]]; then
     source ros_gitlab_ci/ccache.bash
   fi
 
   source ros_gitlab_ci/gitlab-ros.bash
 fi
-
