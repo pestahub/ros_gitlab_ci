@@ -54,14 +54,14 @@ required_ver="4.9.0"
 if [[ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ]] && [[ "$gcc_version" != "$required_ver" ]]; then
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
-  if [[ -e $DISABLE_GCC_COLORS ]]; then
+  if [[ -e "$DISABLE_GCC_COLORS" ]]; then
     export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
   fi
 fi
 
 # Enable global C++11 if required by the user
 #--------------------------------------------
-if [[ ! -z ${GLOBAL_C11} ]]; then
+if [[ ! -z "${GLOBAL_C11}" ]]; then
   echo "Enabling C++11 globally"
   export CXXFLAGS="$CXXFLAGS -std=c++11"
 fi
