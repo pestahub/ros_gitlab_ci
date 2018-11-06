@@ -4,7 +4,7 @@
 #---------------------
 ROS_DISTRO=$(ls /opt/ros/)
 
-if [ -z "$ROS_DISTRO" ]; then
+if [[ -z "$ROS_DISTRO" ]]; then
   echo "No ROS distribution was found in /opt/ros/. Aborting!"
   exit 1
 fi
@@ -51,17 +51,17 @@ apt-get install -qq $ROS_PACKAGES_TO_INSTALL
 # http://unix.stackexchange.com/questions/285924/how-to-compare-a-programs-version-in-a-shell-script/285928#285928
 gcc_version="$(gcc -dumpversion)"
 required_ver="4.9.0"
-if [ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" = "$gcc_version" ] && [ "$gcc_version" != "$required_ver" ]; then
+if [[ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ]] && [[ "$gcc_version" != "$required_ver" ]]; then
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
-  if [ -e $DISABLE_GCC_COLORS ]; then
+  if [[ -e $DISABLE_GCC_COLORS ]]; then
     export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
   fi
 fi
 
 # Enable global C++11 if required by the user
 #--------------------------------------------
-if [ ! -z ${GLOBAL_C11} ]; then
+if [[ ! -z ${GLOBAL_C11} ]]; then
   echo "Enabling C++11 globally"
   export CXXFLAGS="$CXXFLAGS -std=c++11"
 fi
@@ -78,7 +78,7 @@ echo "##############################################"
 
 # Self testing
 #-------------
-if [ "$SELF_TESTING" = "true" ]; then
+if [[ "$SELF_TESTING" == "true" ]]; then
   # We are done, no need to prepare the build
   return
 fi
@@ -93,7 +93,7 @@ rosinstall_file=$(find $CI_PROJECT_DIR -maxdepth 2 -type f -name "*.rosinstall")
 cd $CI_PROJECT_DIR/..
 mkdir -p catkin_workspace/src
 
-if [ -z "$rosinstall_file" ]; then
+if [[ -z "$rosinstall_file" ]]; then
   # No rosinstall file
   # Copy current directory into a src directory
   # Don't move the original clone or GitLab CI fails!
@@ -127,7 +127,7 @@ for i in */.git; do
 done
 cd $CI_PROJECT_DIR/catkin_workspace/
 
-if [ "$USE_ROSDEP" != "false" ]; then
+if [[ "$USE_ROSDEP" != "false" ]]; then
   echo "Using rosdep to install dependencies"
   # Install rosdep and initialize
   apt-get install -qq python-rosdep
@@ -137,4 +137,3 @@ if [ "$USE_ROSDEP" != "false" ]; then
   # Use rosdep to install dependencies
   rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y --as-root apt:false
 fi
-
