@@ -130,7 +130,7 @@ cd $CI_PROJECT_DIR/catkin_workspace/
 if [[ "$USE_ROSDEP" != "false" ]]; then
   echo "Using rosdep to install dependencies"
   # Install rosdep and initialize
-  apt-get install -qq python-rosdep
+  apt-get install -qq python-rosdep python-pip
   rosdep init || true
   rosdep update
 
