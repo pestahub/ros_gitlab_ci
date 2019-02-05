@@ -53,6 +53,9 @@ If you want to test your packages after building them, read the [example package
 - `DISABLE_CCACHE` (false by default), if defined to `true`: disables [ccache](https://ccache.samba.org/) gcc output caching.
 - `USE_ROSDEP` (true by default) use [rosdep](http://wiki.ros.org/rosdep/) to install dependencies. Define to `false` to disable.
 - `ROSINSTALL_CI_JOB_TOKEN` (false by default), if defined to `true`: makes it possible to clone private repositories using wstool by using the [CI job permissions mode](https://docs.gitlab.com/ee/user/project/new_ci_build_permissions_model.html). Requires GitLab 8.12 minimum and that the private repositories are on the same GitLab server.
+- `WSTOOL_RECURSIVE` (false by default), if defined to `true`: wstool will be used to cloned recursively every repositories specified in the `*.rosinstall` files. For this feature to work:
+  - The rosinstall file names must be unique
+  - No repository may contain a space in it's name
 
 Example of using one of the available variables:
 ```yml
