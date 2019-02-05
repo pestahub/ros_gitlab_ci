@@ -48,10 +48,11 @@ If you want to test your packages after building them, read the [example package
 
 ## Useful variables
 - `ROS_PACKAGES_TO_INSTALL` (empty by default) specify extra ROS packages to install, for `ros-kinetic-rviz` just add `rviz` to the list, the ROS distro is automatically detected.
-- `GLOBAL_C11` (not defined by default) forces C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
-- `DISABLE_GCC_COLORS` (false by default) disables gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html)).
-- `DISABLE_CCACHE` (false by default) disables [ccache](https://ccache.samba.org/) gcc output caching.
-- `USE_ROSDEP` (true by default) use [rosdep](http://wiki.ros.org/rosdep/) to install dependencies.
+- `GLOBAL_C11` (not defined by default), if defined to `true`: forces C++11 for every project compiled, defined it to any value (eg `true`) to globally enable C++11.
+- `DISABLE_GCC_COLORS` (false by default), if defined to `true`: disables gcc colour output ([-fdiagnostics-color](https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html)).
+- `DISABLE_CCACHE` (false by default), if defined to `true`: disables [ccache](https://ccache.samba.org/) gcc output caching.
+- `USE_ROSDEP` (true by default) use [rosdep](http://wiki.ros.org/rosdep/) to install dependencies. Define to `false` to disable.
+- `ROSINSTALL_CI_JOB_TOKEN` (false by default), if defined to `true`: makes it possible to clone private repositories using wstool by using the [CI job permissions mode](https://docs.gitlab.com/ee/user/project/new_ci_build_permissions_model.html). Requires GitLab 8.12 minimum and that the private repositories are on the same GitLab server.
 
 Example of using one of the available variables:
 ```yml
