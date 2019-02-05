@@ -54,14 +54,14 @@ required_ver="4.9.0"
 if [[ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_version" ]] && [[ "$gcc_version" != "$required_ver" ]]; then
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
-  if [[ -e "$DISABLE_GCC_COLORS" ]]; then
+  if [[ ! -z "${DISABLE_GCC_COLORS}" && "${DISABLE_GCC_COLORS}" == "true" ]]; then
     export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
   fi
 fi
 
 # Enable global C++11 if required by the user
 #--------------------------------------------
-if [[ ! -z "${GLOBAL_C11}" ]]; then
+if [[ "${GLOBAL_C11}" == "true" ]]; then
   echo "Enabling C++11 globally"
   export CXXFLAGS="$CXXFLAGS -std=c++11"
 fi
@@ -78,7 +78,7 @@ echo "##############################################"
 
 # Self testing
 #-------------
-if [[ "$SELF_TESTING" == "true" ]]; then
+if [[ "${SELF_TESTING}" == "true" ]]; then
   # We are done, no need to prepare the build
   return
 fi
@@ -102,6 +102,15 @@ if [[ -z "$rosinstall_file" ]]; then
   cd $CI_PROJECT_DIR
 else
   echo "Using wstool file $rosinstall_file"
+
+  # Use GitLab CI tokens if required by the user
+  # This allows to clone private repositories using wstool
+  # Requires GitLab 8.12 and that the private repositories are on the same GitLab server
+  if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
+    echo "Modify rosinstall file to use GitLab CI job token"
+    $CI_PROJECT_DIR/ros_gitlab_ci/rosinstall_ci_job_token.bash $rosinstall_file
+  fi
+
   # Install wstool
   apt-get install -qq python-wstool
   # Create workspace
@@ -127,7 +136,7 @@ for i in */.git; do
 done
 cd $CI_PROJECT_DIR/catkin_workspace/
 
-if [[ "$USE_ROSDEP" != "false" ]]; then
+if [[ ("${USE_ROSDEP}" != false && ! -z "${USE_ROSDEP}") || -z "${USE_ROSDEP}" ]]; then
   echo "Using rosdep to install dependencies"
   # Install rosdep and initialize
   apt-get install -qq python-rosdep python-pip
