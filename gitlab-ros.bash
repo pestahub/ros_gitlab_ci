@@ -4,7 +4,7 @@
 #---------------------
 ROS_DISTRO=$(ls /opt/ros/)
 
-if [[ -z "$ROS_DISTRO" ]]; then
+if [[ -z "${ROS_DISTRO}" ]]; then
   echo "No ROS distribution was found in /opt/ros/. Aborting!"
   exit 1
 fi
@@ -16,7 +16,7 @@ apt-get install -qq gcc g++
 
 # Source ROS
 #-----------
-source /opt/ros/$ROS_DISTRO/setup.bash
+source /opt/ros/${ROS_DISTRO}/setup.bash
 
 # Install catkin tools # https://catkin-tools.readthedocs.io/en/latest/installing.html
 #---------------------
@@ -30,18 +30,18 @@ export TERM="xterm"
 # Install ROS packages required by the user
 #------------------------------------------
 # Split packages into package list
-IFS=' ' read -ra PACKAGES <<< "$ROS_PACKAGES_TO_INSTALL"
+IFS=' ' read -ra PACKAGES <<< "${ROS_PACKAGES_TO_INSTALL}"
 # Clear packages list
 ROS_PACKAGES_TO_INSTALL=""
 
 # Append "ros-kinetic-" (eg for Kinetic) before the package name
 # and append in the packages list
 for package in "${PACKAGES[@]}"; do
-  ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-$ROS_DISTRO-$package"
+  ROS_PACKAGES_TO_INSTALL="${ROS_PACKAGES_TO_INSTALL} ros-${ROS_DISTRO}-${package}"
 done
 
 # Install the packages
-apt-get install -qq $ROS_PACKAGES_TO_INSTALL
+apt-get install -qq ${ROS_PACKAGES_TO_INSTALL}
 
 # Add color diagnostics
 #----------------------
@@ -55,7 +55,7 @@ if [[ "$(printf "$required_ver\n$gcc_version" | sort -V | head -n1)" == "$gcc_ve
   echo "Can't use -fdiagnostics-color, gcc is too old!"
 else
   if [[ ! -z "${DISABLE_GCC_COLORS}" && "${DISABLE_GCC_COLORS}" == "true" ]]; then
-    export CXXFLAGS="$CXXFLAGS -fdiagnostics-color"
+    export CXXFLAGS="${CXXFLAGS} -fdiagnostics-color"
   fi
 fi
 
@@ -63,7 +63,7 @@ fi
 #--------------------------------------------
 if [[ "${GLOBAL_C11}" == "true" ]]; then
   echo "Enabling C++11 globally"
-  export CXXFLAGS="$CXXFLAGS -std=c++11"
+  export CXXFLAGS="${CXXFLAGS} -std=c++11"
 fi
 
 # Display system information
@@ -72,7 +72,7 @@ echo "##############################################"
 uname -a
 lsb_release -a
 gcc --version
-echo "CXXFLAGS = $CXXFLAGS"
+echo "CXXFLAGS = ${CXXFLAGS}"
 cmake --version
 echo "##############################################"
 
@@ -88,53 +88,69 @@ fi
 # https://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables
 
 # Does this project have a wstool install file?
-rosinstall_file=$(find $CI_PROJECT_DIR -maxdepth 2 -type f -name "*.rosinstall")
+rosinstall_file=$(find ${CI_PROJECT_DIR} -maxdepth 2 -type f -name "*.rosinstall")
 
-cd $CI_PROJECT_DIR/..
+cd ${CI_PROJECT_DIR}/..
 mkdir -p catkin_workspace/src
 
-if [[ -z "$rosinstall_file" ]]; then
+if [[ -z "${rosinstall_file}" ]]; then
   # No rosinstall file
   # Copy current directory into a src directory
   # Don't move the original clone or GitLab CI fails!
-  cp -r $CI_PROJECT_DIR catkin_workspace/src/
-  cd catkin_workspace/src/$CI_PROJECT_NAME/
-  cd $CI_PROJECT_DIR
+  cp -r ${CI_PROJECT_DIR} catkin_workspace/src/
 else
-  echo "Using wstool file $rosinstall_file"
+  echo "Using wstool file ${rosinstall_file}"
 
   # Use GitLab CI tokens if required by the user
   # This allows to clone private repositories using wstool
   # Requires GitLab 8.12 and that the private repositories are on the same GitLab server
   if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
     echo "Modify rosinstall file to use GitLab CI job token"
-    $CI_PROJECT_DIR/ros_gitlab_ci/rosinstall_ci_job_token.bash $rosinstall_file
+    ${CI_PROJECT_DIR}/ros_gitlab_ci/rosinstall_ci_job_token.bash ${rosinstall_file}
   fi
 
   # Install wstool
   apt-get install -qq python-wstool
   # Create workspace
   cd catkin_workspace
-  wstool init src $rosinstall_file
-  wstool update -t src
+  wstool init src ${rosinstall_file}
+
+  if [[ "${WSTOOL_RECURSIVE}" == "true" ]]; then
+    echo "Using wstool recursively"
+    while : ; do
+      rosinstall_files=$(find src -type f -name "*?.rosinstall")
+      rosinstall_file=$(echo ${rosinstall_files} | cut -d ' ' -f 1)
+      if [[ -z "${rosinstall_file}" ]]; then
+        break
+      fi
+      if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
+        ${CI_PROJECT_DIR}/ros_gitlab_ci/rosinstall_ci_job_token.bash ${rosinstall_file}
+      fi
+      wstool merge ${rosinstall_file} -t src
+      rm ${rosinstall_file}
+      wstool update -t src
+    done
+
+    wstool update -t src
+  fi
 
   # If the project itself is not included in rosinstall file, copy it manually
-  if [ ! -d "src/$CI_PROJECT_NAME" ]; then
-    cp -r $CI_PROJECT_DIR src
+  if [ ! -d "src/${CI_PROJECT_NAME}" ]; then
+    cp -r ${CI_PROJECT_DIR} src
   fi
 fi
 
-mv $CI_PROJECT_DIR/../catkin_workspace $CI_PROJECT_DIR
+mv ${CI_PROJECT_DIR}/../catkin_workspace ${CI_PROJECT_DIR}
 
 # Initialize git submodules
-cd $CI_PROJECT_DIR/catkin_workspace/src
+cd ${CI_PROJECT_DIR}/catkin_workspace/src
 for i in */.git; do
   cd "$i/..";
   git submodule init
   git submodule update
   cd -
 done
-cd $CI_PROJECT_DIR/catkin_workspace/
+cd ${CI_PROJECT_DIR}/catkin_workspace/
 
 if [[ ("${USE_ROSDEP}" != false && ! -z "${USE_ROSDEP}") || -z "${USE_ROSDEP}" ]]; then
   echo "Using rosdep to install dependencies"
@@ -144,5 +160,5 @@ if [[ ("${USE_ROSDEP}" != false && ! -z "${USE_ROSDEP}") || -z "${USE_ROSDEP}" ]
   rosdep update
 
   # Use rosdep to install dependencies
-  rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y --as-root apt:false
+  rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y --as-root apt:false
 fi
