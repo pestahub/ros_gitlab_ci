@@ -27,7 +27,7 @@ if [[ "${CI_PROJECT_NAME}" == "ros_gitlab_ci" ]]; then
 
   # ccache
   #-------
-  if [[ ! -z "${DISABLE_CCACHE}" && "${DISABLE_CCACHE}" == "true" ]]; then
+  if [[ -z "${DISABLE_CCACHE}" || "${DISABLE_CCACHE}" != "true" ]]; then
     source $CI_PROJECT_DIR/ccache.bash
   fi
 
@@ -37,7 +37,7 @@ if [[ "${CI_PROJECT_NAME}" == "ros_gitlab_ci" ]]; then
 else
   # ccache
   #-------
-  if [[ ! -z "${DISABLE_CCACHE}" && "${DISABLE_CCACHE}" == "true" ]]; then
+  if [[ -z "${DISABLE_CCACHE}" || "${DISABLE_CCACHE}" != "true" ]]; then
     source ros_gitlab_ci/ccache.bash
   fi
 
