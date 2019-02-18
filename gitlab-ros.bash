@@ -27,6 +27,9 @@ apt-get update
 apt-get install -qq python-catkin-tools xterm
 export TERM="xterm"
 
+# Install catkin lint
+apt-get install -qq python-catkin-lint
+
 # Install ROS packages required by the user
 #------------------------------------------
 # Split packages into package list
