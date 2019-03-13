@@ -94,6 +94,7 @@ fi
 rosinstall_file=$(find ${CI_PROJECT_DIR} -maxdepth 2 -type f -name "*.rosinstall")
 
 cd ${CI_PROJECT_DIR}/..
+rm -rf catkin_workspace/src
 mkdir -p catkin_workspace/src
 
 if [[ -z "${rosinstall_file}" ]]; then
