@@ -20,11 +20,9 @@ source /opt/ros/${ROS_DISTRO}/setup.bash
 
 # Install catkin tools # https://catkin-tools.readthedocs.io/en/latest/installing.html
 #---------------------
-if [[ -z "/etc/apt/sources.list.d/ros-latest.list" ]]; then
-  apt-get install -qq wget
-  sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
-  wget http://packages.ros.org/ros.key -O - | apt-key add -
-fi
+apt-get install -qq wget
+sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
+wget http://packages.ros.org/ros.key -O - | apt-key add -
 apt-get update
 apt-get install -qq python-catkin-tools xterm
 export TERM="xterm"
