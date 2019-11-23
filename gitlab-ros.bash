@@ -132,7 +132,7 @@ else
       if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
         ${CI_PROJECT_DIR}/ros_gitlab_ci/rosinstall_ci_job_token.bash ${rosinstall_file}
       fi
-      wstool merge ${rosinstall_file} -t src
+      wstool merge ${rosinstall_file} -t src -y
       rm ${rosinstall_file}
       wstool update -t src
     done
