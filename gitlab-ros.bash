@@ -146,7 +146,13 @@ else
   fi
 fi
 
-mv ${CI_PROJECT_DIR}/../catkin_workspace ${CI_PROJECT_DIR}
+# Move catkin workspace to the project directory. Potentially merges with build artifacts that are already in-place.
+# Preparation: Remove potentially existing catkin_workspace sub-dir that we also copied over. Could happen if it was part of the build artifacts.
+rm -rf ${CI_PROJECT_DIR}/../catkin_workspace/src/${CI_PROJECT_NAME}/catkin_workspace
+# Prepation: install rsync
+apt-get install -qq rsync
+# Actual move: Use rsync for the move because it merges sub-dir and mv does not.
+rsync -a ${CI_PROJECT_DIR}/../catkin_workspace ${CI_PROJECT_DIR}
 
 # Initialize git submodules
 cd ${CI_PROJECT_DIR}/catkin_workspace/src
