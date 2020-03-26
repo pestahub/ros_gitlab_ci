@@ -87,11 +87,9 @@ Example usage:
 ```yml
 # catkin_lint
 catkin lint:
-  stage: build
+  stage: test
   image: ros:melodic-ros-core
-  before_script:
-    - apt update >/dev/null 2>&1
-    - apt install -y python-catkin-lint >/dev/null 2>&1
+  needs: []
   allow_failure: true
   script:
     - catkin_lint -W3 .
