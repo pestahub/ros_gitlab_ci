@@ -37,9 +37,11 @@ if [[ "${CI_PROJECT_NAME}" == "ros_gitlab_ci" ]]; then
 else
   # ccache
   #-------
+  export ROS_GITLAB_CI_HOME_DIR=$(pwd)/ros_gitlab_ci
+  
   if [[ -z "${DISABLE_CCACHE}" || "${DISABLE_CCACHE}" != "true" ]]; then
-    source ros_gitlab_ci/ccache.bash
+    source ${ROS_GITLAB_CI_HOME_DIR}/ccache.bash
   fi
 
-  source ros_gitlab_ci/gitlab-ros.bash
+  source ${ROS_GITLAB_CI_HOME_DIR}/gitlab-ros.bash
 fi
