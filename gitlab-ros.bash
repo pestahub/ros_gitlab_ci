@@ -112,7 +112,7 @@ else
   # Requires GitLab 8.12 and that the private repositories are on the same GitLab server
   if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
     echo "Modify rosinstall file to use GitLab CI job token"
-    ${ROS_GITLAB_CI_DIR}/rosinstall_ci_job_token.bash ${rosinstall_file}
+    ${ROS_GITLAB_CI_HOME_DIR}/rosinstall_ci_job_token.bash ${rosinstall_file}
   fi
 
   # Install wstool
@@ -130,7 +130,7 @@ else
         break
       fi
       if [[ "${ROSINSTALL_CI_JOB_TOKEN}" == "true" ]]; then
-        ${ROS_GITLAB_CI_DIR}/rosinstall_ci_job_token.bash ${rosinstall_file}
+        ${ROS_GITLAB_CI_HOME_DIR}/rosinstall_ci_job_token.bash ${rosinstall_file}
       fi
       wstool merge ${rosinstall_file} -t src -y
       rm ${rosinstall_file}
