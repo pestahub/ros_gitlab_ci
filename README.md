@@ -27,6 +27,7 @@ cache:
     - ccache/
 
 before_script:
+  - apt update >/dev/null && apt install -y git >/dev/null
   - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
@@ -63,6 +64,7 @@ variables:
   ROS_PACKAGES_TO_INSTALL: "uuid-msgs"
 
 before_script:
+  - apt update >/dev/null && apt install -y git >/dev/null
   - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
@@ -77,6 +79,7 @@ Just add them after sourcing `gitlab-ci.bash` in the `before_script` section, fo
 
 ```yml
 before_script:
+ - apt update >/dev/null && apt install -y git >/dev/null
  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
  - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
  - apt install -y liblapack-dev >/dev/null
