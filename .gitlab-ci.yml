@@ -3,6 +3,7 @@ variables:
   ROS_PACKAGES_TO_INSTALL: "actionlib" # Here the package is useless, it is just for demonstration
 
 before_script:
+  - apt update >/dev/null && apt install -y git >/dev/null
   - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
