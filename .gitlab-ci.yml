@@ -12,39 +12,39 @@ cache:
     - ccache/
 
 # Tests for Noetic
-melodic-catkin_make:
+noetic catkin_make:
   image: ros:noetic-ros-core
   stage: build
   script:
     - catkin_make
 
-melodic-catkin_build:
+noetic catkin build:
   image: ros:noetic-ros-core
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
 
 # Tests for Melodic
-melodic-catkin_make:
+melodic catkin_make:
   image: ros:melodic-ros-core
   stage: build
   script:
     - catkin_make
 
-melodic-catkin_build:
+melodic catkin build:
   image: ros:melodic-ros-core
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
 
 # Tests for Kinetic
-kinetic-catkin_make:
+kinetic catkin_make:
   image: ros:kinetic-ros-core
   stage: build
   script:
     - catkin_make
 
-kinetic-catkin_build:
+kinetic catkin build:
   image: ros:kinetic-ros-core
   stage: build
   script:
