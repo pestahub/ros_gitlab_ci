@@ -11,6 +11,7 @@ Supported ROS releases:
 - Kinetic
 - Lunar
 - Melodic
+- Noetic
 
 This repository uses the [ROS Docker](https://store.docker.com/images/ros) images to compile your packages, it does not run tests by default.
 
@@ -20,7 +21,7 @@ Your repository must be hosted on a GitLab instance with CI working and Docker s
 Create a `.gitlab-ci.yml` that looks like this:
 
 ```yml
-image: ros:melodic-ros-core
+image: ros:noetic-ros-core
 
 cache:
   paths:
@@ -58,7 +59,7 @@ If you want to test your packages after building them, read the [example package
 
 Example of using one of the available variables:
 ```yml
-image: ros:melodic-ros-core
+image: ros:noetic-ros-core
 
 variables:
   ROS_PACKAGES_TO_INSTALL: "uuid-msgs"
@@ -88,17 +89,17 @@ before_script:
 ## Using with [`catkin_lint`](http://wiki.ros.org/catkin_lint)
 Example usage:
 ```yml
-# catkin_lint
 catkin lint:
   stage: test
-  image: ros:melodic-ros-core
+  image: ros:noetic-ros-core
   needs: []
-  allow_failure: true
+before_script:
+    - apt update && apt install -y python3-catkin-lint
   script:
-    - catkin_lint -W3 .
+    - catkin_lint -W2 .
 ```
 
 ## Example package with testing
 You can also test you packages using the ROS testing tools and GitLab CI pipelines, here is an example package:
 - https://gitlab.com/VictorLamoine/ros_gitlab_ci_test
-- https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/melodic/.gitlab-ci.yml
+- https://gitlab.com/VictorLamoine/ros_gitlab_ci_test/blob/noetic/.gitlab-ci.yml
