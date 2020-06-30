@@ -1,30 +1,25 @@
+image: ros:noetic-ros-core
 variables:
   # If package name is "ros-noetic-actionlib" it becomes "actionlib" (remove the prefix)
   ROS_PACKAGES_TO_INSTALL: "actionlib" # Here the package is useless, it is just for demonstration
 
 before_script:
   - apt update >/dev/null && apt install -y git >/dev/null
-  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git
+  - git clone https://gitlab.com/VictorLamoine/ros_gitlab_ci.git >/dev/null
   - source ros_gitlab_ci/gitlab-ci.bash >/dev/null
 
-cache:
-  paths:
-    - ccache/
-
-# Tests for Noetic
+# noetic
 noetic catkin_make:
-  image: ros:noetic-ros-core
   stage: build
   script:
     - catkin_make
 
 noetic catkin build:
-  image: ros:noetic-ros-core
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
 
-# Tests for Melodic
+# melodic
 melodic catkin_make:
   image: ros:melodic-ros-core
   stage: build
@@ -33,19 +28,6 @@ melodic catkin_make:
 
 melodic catkin build:
   image: ros:melodic-ros-core
-  stage: build
-  script:
-    - catkin build --summarize --no-status --force-color
-
-# Tests for Kinetic
-kinetic catkin_make:
-  image: ros:kinetic-ros-core
-  stage: build
-  script:
-    - catkin_make
-
-kinetic catkin build:
-  image: ros:kinetic-ros-core
   stage: build
   script:
     - catkin build --summarize --no-status --force-color
