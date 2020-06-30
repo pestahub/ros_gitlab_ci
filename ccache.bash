@@ -1,5 +1,4 @@
 #!/bin/bash
-apt-get update
 apt-get install -qq ccache
 export PATH="/usr/lib/ccache:$PATH"
 
@@ -10,4 +9,3 @@ export CCACHE_DIR=${CI_PROJECT_DIR}/ccache
 #cache:
 #  paths:
 #    - ccache/
-
