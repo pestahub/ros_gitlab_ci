@@ -28,10 +28,6 @@ if [[ "${ROS_DISTRO}" == "noetic" ]]; then
   pip3 install osrf-pycommon
 fi
 
-# Install everything needed to compile
-#------------------------------------
-apt-get install -qq gcc g++ build-essential
-
 # Source ROS
 #-----------
 source /opt/ros/${ROS_DISTRO}/setup.bash
