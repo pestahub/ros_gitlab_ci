@@ -1,4 +1,4 @@
-[![ROS](http://www.ros.org/wp-content/uploads/2013/10/rosorg-logo1.png)](http://www.ros.org/)
+[![ROS](https://upload.wikimedia.org/wikipedia/commons/b/bb/Ros_logo.svg)](http://www.ros.org/)
 
 Using Travis CI? Take a look at [ros-industrial/industrial_ci](https://github.com/ros-industrial/industrial_ci).
 
