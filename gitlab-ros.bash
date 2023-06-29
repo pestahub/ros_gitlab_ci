@@ -150,9 +150,14 @@ if [[ ("${USE_ROSDEP}" != false && ! -z "${USE_ROSDEP}") || -z "${USE_ROSDEP}" ]
   echo "Using rosdep to install dependencies"
   # Install rosdep and initialize
   apt-get install -qq $rosdep_pkg_name $pip_pkg_name
-  rosdep init || true
-  rosdep update
+  
+  if rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y --as-root apt:false; then 
+    echo "All required rosdeps installed successfully"
+  else 
+    rosdep init || true
+    rosdep update
 
-  # Use rosdep to install dependencies
-  rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y --as-root apt:false
+    # Use rosdep to install dependencies
+    rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y --as-root apt:false
+  fi
 fi
