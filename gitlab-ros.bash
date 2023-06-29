@@ -140,8 +140,8 @@ rsync -a ${CI_PROJECT_DIR}/../catkin_workspace ${CI_PROJECT_DIR}
 cd ${CI_PROJECT_DIR}/catkin_workspace/src
 for i in */.git; do
   cd "$i/..";
-  git submodule init
-  git submodule update
+  git submodule update --init --recursive
+  git submodule update --recursive
   cd -
 done
 cd ${CI_PROJECT_DIR}/catkin_workspace/
