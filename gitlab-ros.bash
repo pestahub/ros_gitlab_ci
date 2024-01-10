@@ -30,7 +30,7 @@ fi
 
 # Install everything needed to compile
 #------------------------------------
-apt-get install -qq gcc g++ build-essential
+apt-get install -qq gcc g++ build-essential dialog apt-utils
 
 # Source ROS
 #-----------
